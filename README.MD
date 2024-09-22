@@ -30,7 +30,7 @@ O objetivo deste projeto é criar uma aplicação backend com controle de autent
 - [x] Implementação da rota `auth`.
 - [x] Implementação da rota `users`.
 - [x] Implementação da rota `editAccount`.
-- [ ] Documentação via Postman/Swagger.
+- [x] Documentação via Postman/Swagger.
 - [ ] Desenvolvimento de testes unitários.
 - [x] ~~Pequenos commits frequentes~~.
 - [ ] Otimização de funções e aplicação de clean code.
