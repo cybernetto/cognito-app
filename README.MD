@@ -5,6 +5,26 @@ Este é um teste de backend desenvolvido para a **Caveo**, utilizando **Node.js*
 Powered by Raimundo.
 
 ---
+## DESAFIO
+
+# Tarefas do Projeto
+
+- [x] Configure um novo repositório Node.js.
+- [x] Utilize o framework KoaJS.
+- [x] Adicione TypeORM para gerenciar o banco de dados.
+- [x] Utilize PostgreSQL como banco de dados relacional.
+- [x] Utilize Typescript.
+- [x] Criação de tabela User.
+- [ ] Criação de um docker compose.
+- [x] Criação de middleware.
+- [x] Reação a permissões: user e admin.
+- [x] Rota auth.
+- [x] Rota users.
+- [ ] Rota editAccount.
+- [ ] Documentação Postman/Swagger.
+- [ ] Testes Unitários.
+- [x] ~~Pequenos commits.~~
+
 
 ## 🚀 Como Executar
 
@@ -17,7 +37,10 @@ Powered by Raimundo.
 - Docker (opcional)
 
 ### Passo a Passo
-
+0. **Se não quiser configurar o postgresSQL é so manter as variaveis padrões e fazer o deploy no docker:**
+   ```bash
+   docker run --name my-postgres -e POSTGRES_USER=yourusername -e POSTGRES_PASSWORD=yourpassword -e POSTGRES_DB=yourdbname -p 5432:5432 -d postgres
+   ```
 1. **Instale a versão correta do Node.js com asdf:**
 
    ```bash
