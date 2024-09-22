@@ -58,12 +58,18 @@ Antes de começar, você vai precisar ter instalado em sua máquina as seguintes
 
 ### **Passo a Passo**
 
-0. **Configuração opcional do PostgreSQL via Docker:**
+0. **Configuração opcional para economizar tempo:**
 
-   Caso prefira usar o Docker para rodar o PostgreSQL, execute o seguinte comando:
+   Usar o PostgreSQL com configurações default do projeto, execute o seguinte comando:
 
    ```bash
    docker run --name my-postgres -e POSTGRES_USER=yourusername -e POSTGRES_PASSWORD=yourpassword -e POSTGRES_DB=yourdbname -p 5432:5432 -d postgres
+   ```
+
+   Usar envs ja setadas do Cognito, dentro do projeto execute.
+   ```bash
+   ./descriptografar_env.sh
+   #será pedido uma senha, vou passar essa senha na entrega do desafio
    ```
 
 1. **Instale a versão correta do Node.js com asdf:**
