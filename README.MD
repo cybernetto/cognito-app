@@ -24,7 +24,7 @@ O objetivo deste projeto é criar uma aplicação backend com controle de autent
 - [x] Integração com PostgreSQL como banco de dados relacional.
 - [x] Desenvolvimento utilizando TypeScript.
 - [x] Criação da tabela `User`.
-- [ ] Configuração de Docker Compose.
+- [x] Configuração de Docker Compose.
 - [x] Implementação de middleware de autenticação e autorização.
 - [x] Controle de permissões para usuários: `user` e `admin`.
 - [x] Implementação da rota `auth`.
