@@ -56,21 +56,36 @@ Antes de começar, você vai precisar ter instalado em sua máquina as seguintes
 - [PostgreSQL](https://www.postgresql.org/), para o banco de dados.
 - Docker (opcional, para ambiente de desenvolvimento isolado).
 
+## 🐳 **Executar com Docker (opcional)**
+
+**Rodar projeto com Docker:**
+
+```bash
+docker-compose up --build
+```
+
+**Caso prefira rodar o projeto via Docker de forma segregada:**
+
+Executar o db imagem
+```bash
+docker run --name my-postgres -e POSTGRES_USER=yourusername -e POSTGRES_PASSWORD=yourpassword -e POSTGRES_DB=yourdbname -p 5432:5432 -d postgres
+```
+
+Buildar a imagem
+
+```bash
+docker build -t cognito-app .
+```
+Executar a imagem
+
+```bash
+docker run --name my-node-app-container --link my-postgres:postgres -e POSTGRES_HOST=postgres -p 3000:3000 -d cognito-app
+
+```
+
+----
+
 ### **Passo a Passo**
-
-0. **Configuração opcional para economizar tempo:**
-
-   Usar o PostgreSQL com configurações default do projeto, execute o seguinte comando:
-
-   ```bash
-   docker run --name my-postgres -e POSTGRES_USER=yourusername -e POSTGRES_PASSWORD=yourpassword -e POSTGRES_DB=yourdbname -p 5432:5432 -d postgres
-   ```
-
-   Usar envs ja setadas do Cognito, dentro do projeto execute.
-   ```bash
-   ./descriptografar_env.sh
-   #será pedido uma senha, vou passar essa senha na entrega do desafio
-   ```
 
 1. **Instale a versão correta do Node.js com asdf:**
 
@@ -100,16 +115,6 @@ Antes de começar, você vai precisar ter instalado em sua máquina as seguintes
    ```bash
    npm run dev
    ```
-
----
-
-## 🐳 **Executar com Docker (opcional)**
-
-Caso prefira rodar o projeto via Docker, execute o comando:
-
-```bash
-docker-compose up
-```
 
 ---
 
