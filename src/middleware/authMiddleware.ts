@@ -1,18 +1,79 @@
 import { Context, Next } from 'koa';
+import jwt from 'jsonwebtoken';
+import jwkToPem from 'jwk-to-pem';
+import axios from 'axios';
 
-// Middleware básico para autenticação com JWT
-export const authMiddleware = async (ctx: Context, next: Next) => {
-    // No futuro, aqui vai a verificação do JWT vindo do Cognito
-    const token = ctx.headers.authorization;
-    
-    if (!token) {
-        ctx.status = 401;
-        ctx.body = 'Acesso não autorizado';
-        return;
-    }
-
-    // Simular verificação do token
-    // Se o token for válido, você chamaria `next()`
-    await next();
+const poolData = {
+  UserPoolId: "us-east-2_nITAHCIv0", // Altere para o seu UserPoolId do Cognito
+  ClientId: "7kolr3304oibqonak39c5hd1mj" // Altere para o seu ClientId do Cognito
 };
 
+// Função para obter as chaves JWKs do AWS Cognito
+const getJwks = async () => {
+  const url = `https://cognito-idp.us-east-2.amazonaws.com/${poolData.UserPoolId}/.well-known/jwks.json`;
+  const response = await axios.get(url);
+  return response.data.keys;
+};
+
+// Função para verificar o token JWT
+const verifyToken = async (token: string) => {
+  const decodedHeader = jwt.decode(token, { complete: true })?.header;
+  
+  if (!decodedHeader) {
+    throw new Error('Token inválido');
+  }
+
+  // Obtém as chaves JWKs
+  const keys = await getJwks();
+  const key = keys.find((k: { kid: string | undefined; }) => k.kid === decodedHeader.kid);
+
+  if (!key) {
+    throw new Error('Chave não encontrada');
+  }
+
+  // Converte a JWK para PEM
+  const pem = jwkToPem(key);
+
+  // Verifica o token usando a chave PEM
+  return new Promise((resolve, reject) => {
+    jwt.verify(token, pem, { algorithms: ['RS256'] }, (err, decodedToken) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(decodedToken);
+      }
+    });
+  });
+};
+
+// Middleware Koa para autenticar o token
+export const authMiddleware = (requiredRole?: string) => {
+  return async (ctx: Context, next: Next) => {
+    const authHeader = ctx.headers.authorization;
+    if (!authHeader) {
+      ctx.status = 401; // Unauthorized
+      ctx.body = 'Acesso não autorizado';
+      return;
+    }
+
+    const token = authHeader.split(' ')[1]; // Extrai o token da string "Bearer <token>"
+    
+    try {
+      const decodedToken = await verifyToken(token);
+      ctx.state.user = decodedToken; // Armazena o token decodificado no estado do contexto
+
+      // Verifica a role se for fornecida
+      if (requiredRole && ctx.state.user.role !== requiredRole) {
+        ctx.status = 403; // Forbidden
+        ctx.body = 'Acesso negado';
+        return;
+      }
+
+      await next(); // Continua para o próximo middleware ou rota
+    } catch (err) {
+      console.error('Token inválido:', err);
+      ctx.status = 401; // Unauthorized
+      ctx.body = 'Token inválido';
+    }
+  };
+};

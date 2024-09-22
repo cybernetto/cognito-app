@@ -1,22 +1,29 @@
-// src/interfaces/authMidleware.ts
-
-export interface JwtHeader {
+export interface Jwk {
     alg: string;
+    e: string;
     kid: string;
+    kty: string;
+    n: string;
+    use: string;
   }
   
-  export interface JwtPayload {
-    // Adicione os campos que você espera no payload
+  export interface DecodedToken {
     sub: string;
     iss: string;
+    client_id: string;
+    origin_jti: string;
+    event_id: string;
+    token_use: string;
+    scope: string;
+    auth_time: number;
     exp: number;
-    // Outros campos conforme necessário
+    iat: number;
+    jti: string;
+    username: string;
   }
   
-  export interface Jwk {
-    kty: string;
-    alg: string;
-    use: string;
-    kid: string;
-    x5c: string[];
+  export interface UserAttributes {
+    [key: string]: string | undefined;
+    groups: string;
   }
+  
