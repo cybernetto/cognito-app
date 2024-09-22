@@ -117,6 +117,11 @@ docker run --name my-node-app-container --link my-postgres:postgres -e POSTGRES_
    ```
 
 ---
+## 📦 **Testes**
+   ```bash
+   npm run test
+   ```
+---
 
 ## 📦 **Dependências**
 
