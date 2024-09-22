@@ -1,10 +1,12 @@
 // src/interfaces/requestBody.ts
 
 export interface RequestBody {
-  username: string;
+  name: string;
   password: string;
   email: string;
-  confirm_password: string;
+  confirm_password: string | null;
   confirm_code: string;
+  id: string;
+  role: string;
 }
 

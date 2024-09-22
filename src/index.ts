@@ -3,6 +3,7 @@ import bodyParser from 'koa-bodyparser';
 import authRoutes from './routes/authRoutes';
 import userRoutes from './routes/userRoutes';
 import { initializeDB } from './orm/connection';
+import swaggerRouter from './swagger'
 
 const app = new Koa();
 
@@ -15,6 +16,7 @@ initializeDB();
 // Rotas
 app.use(authRoutes.routes());
 app.use(userRoutes.routes());
+app.use(swaggerRouter.routes());
 
 // Iniciar servidor
 const PORT = process.env.PORT || 3000;

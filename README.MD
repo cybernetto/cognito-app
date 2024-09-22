@@ -1,51 +1,71 @@
-# 🏗️ Backend Challenge - Caveo 🚀
-
-Este é um teste de backend desenvolvido para a **Caveo**, utilizando **Node.js**, **KoaJS**, **TypeScript**, **PostgreSQL** e **TypeORM**.
-
-Powered by Raimundo.
+Aqui está uma versão revisada e mais profissional do seu arquivo README.md:
 
 ---
-## DESAFIO
 
-# Tarefas do Projeto
+# 🏗️ **Backend Challenge - Caveo** 🚀
 
-- [x] Configure um novo repositório Node.js.
-- [x] Utilize o framework KoaJS.
-- [x] Adicione TypeORM para gerenciar o banco de dados.
-- [x] Utilize PostgreSQL como banco de dados relacional.
-- [x] Utilize Typescript.
-- [x] Criação de tabela User.
-- [ ] Criação de um docker compose.
-- [x] Criação de middleware.
-- [x] Reação a permissões: user e admin.
-- [x] Rota auth.
-- [x] Rota users.
-- [ ] Rota editAccount.
-- [ ] Documentação Postman/Swagger.
-- [ ] Testes Unitários.
-- [x] ~~Pequenos commits.~~
+Este projeto é um desafio de backend desenvolvido para a **Caveo**, utilizando **Node.js**, **KoaJS**, **TypeScript**, **PostgreSQL** e **TypeORM**.
 
-- [ ] Otimização de funçoes e aplicação de clean code. 
+Desenvolvido por Raimundo.
 
-## Mapa de Tarefas
+---
 
+## 📝 **Descrição do Desafio**
+
+O objetivo deste projeto é criar uma aplicação backend com controle de autenticação, autorização e gerenciamento de usuários, seguindo as melhores práticas de desenvolvimento.
+
+---
+
+## 📋 **Tarefas do Projeto**
+
+- [x] Configuração inicial de repositório Node.js.
+- [x] Utilização do framework KoaJS.
+- [x] Configuração do TypeORM para gerenciamento de banco de dados.
+- [x] Integração com PostgreSQL como banco de dados relacional.
+- [x] Desenvolvimento utilizando TypeScript.
+- [x] Criação da tabela `User`.
+- [ ] Configuração de Docker Compose.
+- [x] Implementação de middleware de autenticação e autorização.
+- [x] Controle de permissões para usuários: `user` e `admin`.
+- [x] Implementação da rota `auth`.
+- [x] Implementação da rota `users`.
+- [x] Implementação da rota `editAccount`.
+- [ ] Documentação via Postman/Swagger.
+- [ ] Desenvolvimento de testes unitários.
+- [x] ~~Pequenos commits frequentes~~.
+- [ ] Otimização de funções e aplicação de clean code.
+
+---
+
+## 🗺️ **Mapa de Tarefas**
+
+Você pode visualizar o progresso do projeto diretamente no **Miro**:  
 [Veja o Mapa de Tarefas no Miro](https://miro.com/app/embed/uXjVLcROrxE=/?pres=1&frameId=3458764600737919968&embedId=81780933623)
 
-## 🚀 Como Executar
+---
 
-### Pré-requisitos
+## 🚀 **Como Executar o Projeto**
 
-- [asdf](https://asdf-vm.com/guide/getting-started.html) para gerenciar a versão do Node.js
-- **Node.js 20.9.0** (gerenciado via asdf)
-- [npm](https://www.npmjs.com/get-npm) ou [yarn](https://yarnpkg.com/getting-started)
-- [PostgreSQL](https://www.postgresql.org/)
-- Docker (opcional)
+### **Pré-requisitos**
 
-### Passo a Passo
-0. **Se não quiser configurar o postgresSQL é so manter as variaveis padrões e fazer o deploy no docker:**
+Antes de começar, você vai precisar ter instalado em sua máquina as seguintes ferramentas:
+
+- [asdf](https://asdf-vm.com/guide/getting-started.html) para gerenciar a versão do Node.js.
+- **Node.js 20.9.0** (gerenciado via asdf).
+- [npm](https://www.npmjs.com/get-npm) ou [yarn](https://yarnpkg.com/getting-started) para gerenciar pacotes.
+- [PostgreSQL](https://www.postgresql.org/), para o banco de dados.
+- Docker (opcional, para ambiente de desenvolvimento isolado).
+
+### **Passo a Passo**
+
+0. **Configuração opcional do PostgreSQL via Docker:**
+
+   Caso prefira usar o Docker para rodar o PostgreSQL, execute o seguinte comando:
+
    ```bash
    docker run --name my-postgres -e POSTGRES_USER=yourusername -e POSTGRES_PASSWORD=yourpassword -e POSTGRES_DB=yourdbname -p 5432:5432 -d postgres
    ```
+
 1. **Instale a versão correta do Node.js com asdf:**
 
    ```bash
@@ -59,7 +79,7 @@ Powered by Raimundo.
    cd backend-challenge
    ```
 
-3. **Instale as dependências:**
+3. **Instale as dependências do projeto:**
 
    ```bash
    npm install
@@ -74,33 +94,44 @@ Powered by Raimundo.
    ```bash
    npm run dev
    ```
----
-#### **Rodar com Docker (opcional):**
-
-   ```bash
-   docker-compose up
-   ```
 
 ---
 
-## Dependências
+## 🐳 **Executar com Docker (opcional)**
 
-- **koa**: Framework web leve para Node.js
-- **koa-router**: Middleware para criação de rotas
-- **TypeORM**: ORM para conexão com PostgreSQL
-- **pg**: Cliente PostgreSQL para Node.js
-- **typescript**: Superset de JavaScript com tipagem estática
+Caso prefira rodar o projeto via Docker, execute o comando:
+
+```bash
+docker-compose up
+```
 
 ---
 
-## Documentação
+## 📦 **Dependências**
 
-A documentação das rotas pode ser acessada via **Swagger/Postman**.
+Este projeto utiliza as seguintes tecnologias e bibliotecas principais:
+
+- **koa**: Framework web minimalista para Node.js.
+- **koa-router**: Middleware de roteamento para Koa.
+- **TypeORM**: ORM para TypeScript e JavaScript que suporta PostgreSQL.
+- **pg**: Cliente PostgreSQL para Node.js.
+- **typescript**: Superset de JavaScript com tipagem estática.
+
+---
+
+## 📄 **Documentação**
+
+A documentação das rotas da API pode ser acessada via **Swagger** ou **Postman**:
 
 - [Swagger](https://swagger.io/tools/swagger-ui/)
 - [Postman](https://www.postman.com/)
 
 ---
 
-## MD Revisado por ChatGPT 🤖
-``` 
+## ⚡ **Aprimoramentos Futuros**
+
+- Melhorias de performance e aplicação de padrões de clean code.
+- Adição de testes unitários e de integração.
+- Integração completa com Docker para facilitar o setup do ambiente.
+
+---

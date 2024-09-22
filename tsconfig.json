@@ -8,6 +8,7 @@
     "esModuleInterop": true,
     "skipLibCheck": true,
     "experimentalDecorators": true,
+    "noImplicitAny": false,
     "emitDecoratorMetadata": true,
     "strictPropertyInitialization": false // Para evitar erros de inicialização
   },

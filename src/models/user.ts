@@ -8,6 +8,9 @@ export class User {
   @Column()
   cognitoId: string;
 
+  @Column({nullable:true})
+  name: string;
+
   @Column()
   email: string;
 
