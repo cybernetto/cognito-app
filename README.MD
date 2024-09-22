@@ -25,6 +25,11 @@ Powered by Raimundo.
 - [ ] Testes Unitários.
 - [x] ~~Pequenos commits.~~
 
+- [ ] Otimização de funçoes e aplicação de clean code. 
+
+## Mapa de Tarefas
+
+[Veja o Mapa de Tarefas no Miro](https://miro.com/app/embed/uXjVLcROrxE=/?pres=1&frameId=3458764600737919968&embedId=81780933623)
 
 ## 🚀 Como Executar
 
@@ -69,8 +74,8 @@ Powered by Raimundo.
    ```bash
    npm run dev
    ```
-
-6. **Rodar com Docker (opcional):**
+---
+#### **Rodar com Docker (opcional):**
 
    ```bash
    docker-compose up
@@ -97,5 +102,5 @@ A documentação das rotas pode ser acessada via **Swagger/Postman**.
 
 ---
 
-## Revisado por ChatGPT 🤖
+## MD Revisado por ChatGPT 🤖
 ``` 
