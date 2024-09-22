@@ -33,7 +33,7 @@ const confirmUser = async (cognitoUser: CognitoUser, confirm_code: string, ctx: 
   });
 };
 
-const loginUser = async (cognitoUser: CognitoUser, password: string, ctx: Context) => {
+const loginUser = async (cognitoUser: CognitoUser, password: string, confirm_password:string | null, ctx: Context) => {
   return new Promise<void>((resolve) => {
     cognitoUser.authenticateUser(new AuthenticationDetails({ Username: cognitoUser.getUsername(), Password: password }), {
       onSuccess: (result) => {
@@ -42,8 +42,19 @@ const loginUser = async (cognitoUser: CognitoUser, password: string, ctx: Contex
         resolve();
       },
       onFailure: async (err) => {
-        if (err.code === 'NotAuthorizedException') {
-          await handleSignUp(cognitoUser, password, ctx);
+        if (err.code === 'NotAuthorizedException' && confirm_password) { 
+          ctx.status = 400;
+          if (password != confirm_password){
+            ctx.body = {message: 'Register failed: Password and confirmation must be equal'};
+            resolve();
+          }else{
+            await handleSignUp(cognitoUser, password, ctx);
+            resolve();
+          }
+        } else if (err.code === "NotAuthorizedException") {
+          ctx.status = 400;
+          ctx.body = { message: 'User or Password are wrong' };
+          resolve();
         } else if (err.code === "UserNotConfirmedException") {
           ctx.status = 400;
           ctx.body = { message: 'Please confirm the email' };
@@ -64,11 +75,12 @@ const handleSignUp = async (cognitoUser: CognitoUser, password: string, ctx: Con
 
   return new Promise<void>((resolve) => {
     userPool.signUp(email, password, attributeList, [], async (signUpErr, signUpResult) => {
+      //console.log(signUpResult);
       if (signUpErr) {
         ctx.status = 500;
         ctx.body = { message: 'Error signing up.', error: signUpErr };
       } else if (signUpResult) {
-        await saveUserToDatabase(signUpResult.user, email, ctx);
+        await saveUserToDatabase(signUpResult.userSub, email, ctx);
       } else {
         ctx.status = 500;
         ctx.body = { message: 'Sign-up failed: No result returned.' };
@@ -78,9 +90,9 @@ const handleSignUp = async (cognitoUser: CognitoUser, password: string, ctx: Con
   });
 };
 
-const saveUserToDatabase = async (cognitoUser: CognitoUser, email: string, ctx: Context) => {
+const saveUserToDatabase = async (cognitoUser: string, email: string, ctx: Context) => {
   const newUser = new User();
-  newUser.cognitoId = cognitoUser.getUsername();
+  newUser.cognitoId = cognitoUser;
   newUser.email = email;
   newUser.role = 'user';
   newUser.isOnboarded = false;
@@ -99,7 +111,7 @@ const saveUserToDatabase = async (cognitoUser: CognitoUser, email: string, ctx: 
 };
 
 export const signInOrRegister = async (ctx: Context) => {
-  const { password, confirm_code, email } = ctx.request.body as RequestBody;
+  const { password, confirm_code, confirm_password, email } = ctx.request.body as RequestBody;
 
   if (!email || (!password && !confirm_code)) {
     ctx.status = 400;
@@ -112,6 +124,6 @@ export const signInOrRegister = async (ctx: Context) => {
   if (confirm_code) {
     await confirmUser(cognitoUser, confirm_code, ctx);
   } else {
-    await loginUser(cognitoUser, password, ctx);
+    await loginUser(cognitoUser, password, confirm_password, ctx);
   }
 };

@@ -1,7 +1,7 @@
 import { Context } from 'koa';
-import { User } from '../models/user'; // Certifique-se de que o modelo de usuário está corretamente importado
-import { AppDataSource } from '../orm/ormconfig'; // Certifique-se de que o caminho está correto
-
+import { User } from '../models/user'; 
+import { AppDataSource } from '../orm/ormconfig';
+import { RequestBody } from '../interfaces/requestBody'
 // Apenas um exemplo para retornar um "Hello User"
 export const getMe = async (ctx: Context) => {
     // Extrair o nome do usuário a partir do token decodificado no middleware
@@ -27,3 +27,59 @@ export const getAllUsers = async (ctx: Context) => {
         ctx.body = { message: 'Error fetching users' };
     }
 };
+
+export const updateUser = async (ctx : Context) => {
+    //put, update, get return all info
+    const { name } = ctx.request.body as RequestBody
+    try {
+        const userRepository = AppDataSource.getRepository(User);
+        //if admin
+        //const users = await userRepository.update({name,role})
+        const users = await userRepository.findOneBy({
+                cognitoId: ctx.state.user.username,
+        })
+        //console.log(ctx.state.user)
+        if (users){
+            users.name = name;
+            users.isOnboarded = true;
+            userRepository.save(users)
+            ctx.status = 200;
+            ctx.body = {message: 'Update Successfull'}
+        }else {
+            ctx.status = 500;
+            ctx.body = {message: 'User does not exist'}
+        }
+    } catch (error){
+        console.error('Error updating user:', error);
+        ctx.status = 500;
+        ctx.body = {message: 'Error updating user', error}
+    }
+}
+
+export const updateAnyUser = async (ctx : Context) => {
+    //put, update, get return all info
+    const { name, id, role } = ctx.request.body as RequestBody
+    try {
+        const userRepository = AppDataSource.getRepository(User);
+        //if admin
+        //const users = await userRepository.update({name,role})
+        const users = await userRepository.findOneBy({
+                cognitoId: id,
+        })
+        //console.log(ctx.state.user)
+        if (users){
+            users.name = name;
+            users.role = role;
+            userRepository.save(users)
+            ctx.status = 200;
+            ctx.body = {message: 'User updated Successfull'}
+        }else {
+            ctx.status = 500;
+            ctx.body = {message: 'User does not exist'}
+        }
+    } catch (error){
+        console.error('Error updating user:', error);
+        ctx.status = 500;
+        ctx.body = {message: 'Error updating user', error}
+    }
+}

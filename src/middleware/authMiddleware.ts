@@ -2,10 +2,15 @@ import { Context, Next } from 'koa';
 import jwt from 'jsonwebtoken';
 import jwkToPem from 'jwk-to-pem';
 import axios from 'axios';
+import { User } from '../models/user';
+import { AppDataSource } from '../orm/ormconfig';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 const poolData = {
-  UserPoolId: "us-east-2_nITAHCIv0", // Altere para o seu UserPoolId do Cognito
-  ClientId: "7kolr3304oibqonak39c5hd1mj" // Altere para o seu ClientId do Cognito
+  UserPoolId: process.env.COGNITO_USER_POOL_ID || "",
+  ClientId: process.env.COGNITO_CLIENT_ID || "",
 };
 
 // Função para obter as chaves JWKs do AWS Cognito
@@ -62,8 +67,14 @@ export const authMiddleware = (requiredRole?: string) => {
       const decodedToken = await verifyToken(token);
       ctx.state.user = decodedToken; // Armazena o token decodificado no estado do contexto
 
+
+      //Consulta role do banco de dados, mas o ideal seria usar as permissões/grupos do proprio COGNITO 
+      const userRepository = AppDataSource.getRepository(User);
+      const users = await userRepository.findOneBy({ cognitoId: ctx.state.user.username  })
+
       // Verifica a role se for fornecida
-      if (requiredRole && ctx.state.user.role !== requiredRole) {
+      var current_role = users?.role
+      if (current_role !== requiredRole) {
         ctx.status = 403; // Forbidden
         ctx.body = 'Acesso negado';
         return;
